@@ -2,7 +2,7 @@
 export const Colors = {
     light: {
         tint: "#DC0A20", // Correction
-        grayDark: "#212121",
+        grayDark: "#333",
         grayMedium: "#666666",
         grayLight: "#E0E0E0", // Correction
         grayBackground: "#EFEFEF", // Correction
@@ -10,7 +10,8 @@ export const Colors = {
     },
     dark: {
         tint: "#DC0A20", // Correction
-        grayDark: "#212121",
+        grayDark: "#333",
+        // grayDark: "#212121",
         grayMedium: "#666666",
         grayLight: "#E0E0E0", // Correction
         grayBackground: "#EFEFEF", // Correction

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ThemedText } from "./components/ThemedText";
-import { useThemeColors } from "@/hooks/useThemeColors";
+import  ThemedText  from "./components/ThemedText";
+import  useThemeColors  from "@/hooks/useThemeColors";
 
 
 
@@ -13,14 +13,15 @@ export default function Index() {
     <SafeAreaView
       style={[styles.container, {backgroundColor: colors.tint }]}
     >
-      <Text  style={styles.headline}>Pokédex</Text>
-      {/* <ThemedText variant="headline" color="grayWhite">Pokédex</ThemedText> */}
+      {/* <Text  style={styles.headline}>Pokédex</Text> */}
+      <ThemedText variant="headline" color="grayWhite">Pokédex</ThemedText>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container:{ 
+    lineHeight:42,
     flex:3
   },
   headline: {
