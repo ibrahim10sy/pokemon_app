@@ -6,7 +6,7 @@ export const Colors = {
         grayMedium: "#666666",
         grayLight: "#E0E0E0", // Correction
         grayBackground: "#EFEFEF", // Correction
-        grayWhite: "#FFFFFF",
+        grayWhite: "#FFF",
     },
     dark: {
         tint: "#DC0A20", // Correction
@@ -15,7 +15,7 @@ export const Colors = {
         grayMedium: "#666666",
         grayLight: "#E0E0E0", // Correction
         grayBackground: "#EFEFEF", // Correction
-        grayWhite: "#FFFFFF",
+        grayWhite: "#FFF",
     },
    type: {
     bug: "#A7B723",
