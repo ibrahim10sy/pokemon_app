@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View ,Image, FlatList} from "react-native";
+import { StyleSheet, Text, View ,Image, FlatList, ActivityIndicator} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import  ThemedText  from "./components/ThemedText";
 import  useThemeColors  from "@/hooks/useThemeColors";
 import Card from "./components/Card";
 import PokemonCard from "./components/pokemon/PokemonCard";
-import useFetchQuery from "@/hooks/useFetchQuery";
 import { getPokemonId } from "./function/pokemons";
+import { useInfiniteFecthQuery } from "@/hooks/useFetchQuery";
 
 
 export default function Index() {
@@ -16,10 +16,10 @@ export default function Index() {
   //   { id: 3, name: 'Venusaur' },
   //   { id: 1, name: 'Bulbasaur' }, // Duplicate
   // ];
-  const {data} = useFetchQuery('/pokemon?limit=21')
-  const pokemons = data?.results ?? [];
-  // console.log(pokemons)
-  
+  // const {data, isFetching} = useFetchQuery('/pokemon?limit=21')
+  const {data, isFetching, fetchNextPage} = useInfiniteFecthQuery('/pokemon?limit=21')
+  const pokemons = data?.pages.flatMap(page => page.results) ?? []
+  console.log(pokemons)
   
   return (
     <SafeAreaView
@@ -33,8 +33,12 @@ export default function Index() {
       <FlatList 
         data={pokemons}
         numColumns={3}
+        contentContainerStyle={[styles.gridGap, styles.list]}
         columnWrapperStyle={styles.gridGap} 
-        contentContainerStyle={[styles.gridGap, styles.list]}  // add padding for grid gap
+        ListFooterComponent={
+          isFetching ? <ActivityIndicator  color={colors.tint} /> : null
+        }
+        onEndReached={() => fetchNextPage()}
         renderItem={({item}) => 
         <PokemonCard id={getPokemonId(item.url)} name={item.name} style={{flex:1/3}} />
         } keyExtractor={(item) => item.url}
