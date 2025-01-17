@@ -1,5 +1,4 @@
-import { StyleSheet, Text, View ,Image, FlatList, ActivityIndicator} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet ,Image, FlatList, ActivityIndicator} from "react-native";
 import  ThemedText  from "./components/ThemedText";
 import  useThemeColors  from "@/hooks/useThemeColors";
 import Card from "./components/Card";
@@ -10,6 +9,7 @@ import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import { Row } from "./components/Row";
 import { SortButton } from "./components/SortButton";
+import { RouteView } from "./components/RouteView";
 
 
 export default function Index() {
@@ -35,14 +35,15 @@ export default function Index() {
   console.log(pokemons)
   
   return (
-    <SafeAreaView
-      style={[styles.container, {backgroundColor: colors.tint }]}
+    <RouteView
+      
     >
       <Row style={styles.header} gap={16}>
           <Image source={require("@/assets/images/pokeball.png")} width={24} height={24}/>
           <ThemedText variant="headline" color="grayLight">Pokédex</ThemedText>
+          {/* <Image  source={require("@/assets/images/pokeball.png")} width={24} height={24}/> */}
       </Row>  
-      <Row gap={16}>
+      <Row gap={16} style={{paddingHorizontal:12}}>
         <SearchBar value={search} onChange={setSearch}></SearchBar>
         <SortButton value={sortKey} onChange={setSortKey}></SortButton>
       </Row>
@@ -62,19 +63,16 @@ export default function Index() {
       />
       </Card>    
 
-    </SafeAreaView>
+    </RouteView>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{ 
-    // lineHeight:42,
-    flex:1,
-    padding:4
-  },
+
   header:{
   paddingHorizontal: 12,
-  paddingVertical: 8,
+  paddingBottom: 8,
+  paddingVertical: 12,
 },
   body: {
   flex: 1,

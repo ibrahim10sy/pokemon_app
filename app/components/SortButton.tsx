@@ -1,7 +1,7 @@
-import { Button, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Button, Dimensions, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Row } from "./Row";
 import useThemeColors from "@/hooks/useThemeColors";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ThemedText from "./ThemedText";
 import Card from "./Card";
 import Radio from "./Radio";
@@ -14,21 +14,33 @@ type Props = {
 
 const options = 
 [
-    {label: "Number", value: "id"},
-    {label: "Name", value: "name"}
-]
+    {label: "Numéro", value: "id"},
+    {label: "Nom", value: "name"}
+] as const
+
 export function SortButton({ value, onChange }: Props) {
     const colors = useThemeColors();
     const [isModal, setModalVisible] = useState(false);
+    const buttonRef = useRef<View>(null);
+    const [position,setPosition] = useState<null | {
+        top:Number;
+        right:Number;
+    }>(null);
 
     const onButtonPressed = () => {
-        setModalVisible(true);
+        buttonRef.current?.measureInWindow((x,y,width,height) => {
+            setPosition({
+                top: y + height,
+                right: Dimensions.get("window").width - x -width
+            })
+            setModalVisible(true);
+        })
     }
 
     return (
         <>
         <Pressable onPress={onButtonPressed}>
-        <View style={[styles.button, { backgroundColor: colors.grayWhite }]}>
+        <View  ref={buttonRef} style={[styles.button, { backgroundColor: colors.grayWhite }]}>
         <Image 
         source = {
             value === "id" ? 
@@ -41,17 +53,20 @@ export function SortButton({ value, onChange }: Props) {
         </View>
         </Pressable>
 
-        <Modal transparent visible={isModal} onRequestClose={() => setModalVisible(false)}>
+        <Modal animationType="fade" transparent visible={isModal} onRequestClose={() => setModalVisible(false)}>
             <Pressable style={styles.backgrop} onPress={() => setModalVisible(false)} />
-            <View style={[styles.popup, {backgroundColor: colors.tint}]}>
+            <View style={[styles.popup, {backgroundColor: colors.tint,}]}>
                 <ThemedText style={styles.title} variant="subtitle3" color="grayWhite">Trier par:</ThemedText>
                 <Card style={styles.card}>
                 {
-                    options.map(p => 
-                    <Row key={p.value} gap={8}>
+                    options.map((p) => (
+                        <Pressable key={p.value} onPress={() => onChange(p.value) }> 
+                            <Row  gap={8}>
                         <Radio checked={p.value === value} />
                         <ThemedText>{p.label}</ThemedText>
-                    </Row>)
+                    </Row>
+                        </Pressable>
+                    ))
                 }
                 </Card>
             </View>
@@ -85,6 +100,8 @@ const styles = StyleSheet.create({
         paddingTop:32,
         gap:16,
         borderRadius:12,
+        //  position: 'absolute',
+        // width:113
     },
     title:{
         paddingLeft:20

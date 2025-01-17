@@ -32,7 +32,9 @@ const styles = StyleSheet.create({
     card: {
         position: 'relative',
         alignItems: 'center',
-        padding:4
+        padding:4,
+        borderWidth: 0.1,
+        borderStyle: 'solid',
     },
     id:{
         alignSelf:'flex-end'
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         borderRadius: 7,
+       
         height:44,
         zIndex: -1
     }
