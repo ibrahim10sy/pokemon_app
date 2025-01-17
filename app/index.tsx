@@ -1,15 +1,26 @@
-import { StyleSheet, Text, View ,Image} from "react-native";
-import { Link } from "expo-router";
+import { StyleSheet, Text, View ,Image, FlatList} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import  ThemedText  from "./components/ThemedText";
 import  useThemeColors  from "@/hooks/useThemeColors";
 import Card from "./components/Card";
-import { Shadow } from "./constants/Shadow";
-import { Colors } from "./constants/Colors";
+import PokemonCard from "./components/pokemon/PokemonCard";
+import useFetchQuery from "@/hooks/useFetchQuery";
+import { getPokemonId } from "./function/pokemons";
 
 
 export default function Index() {
   const colors = useThemeColors();
+  // const pokemons = [
+  //   { id: 1, name: 'Bulbasaur' },
+  //   { id: 2, name: 'Ivysaur' },
+  //   { id: 3, name: 'Venusaur' },
+  //   { id: 1, name: 'Bulbasaur' }, // Duplicate
+  // ];
+  const {data} = useFetchQuery('/pokemon?limit=21')
+  const pokemons = data?.results ?? [];
+  // console.log(pokemons)
+  
+  
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: colors.tint }]}
@@ -19,7 +30,15 @@ export default function Index() {
           <ThemedText variant="headline" color="grayLight">Pokédex</ThemedText>
       </View>  
       <Card style={styles.body}>
-        
+      <FlatList 
+        data={pokemons}
+        numColumns={3}
+        columnWrapperStyle={styles.gridGap} 
+        contentContainerStyle={[styles.gridGap, styles.list]}  // add padding for grid gap
+        renderItem={({item}) => 
+        <PokemonCard id={getPokemonId(item.url)} name={item.name} style={{flex:1/3}} />
+        } keyExtractor={(item) => item.url}
+      />
       </Card>    
 
     </SafeAreaView>
@@ -41,11 +60,13 @@ const styles = StyleSheet.create({
   body: {
   flex: 1,
   // backgroundColor: "#fff",
+},
+gridGap:{
+  gap: 8,
+},
+list :{
+  padding: 16,
 }
-//   body: {
-//   flex: 1,
-//   borderRadius:8,
-//     backgroundColor: Colors.light.grayLight,
-//   // backgroundColor: "#fff",
-// }
 });
+
+
