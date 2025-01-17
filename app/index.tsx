@@ -9,6 +9,7 @@ import { useInfiniteFecthQuery } from "@/hooks/useFetchQuery";
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import { Row } from "./components/Row";
+import { SortButton } from "./components/SortButton";
 
 
 export default function Index() {
@@ -23,7 +24,14 @@ export default function Index() {
   const {data, isFetching, fetchNextPage} = useInfiniteFecthQuery('/pokemon?limit=21')
   const pokemons = data?.pages.flatMap(page => page.results.map(r => ({name:r.name, id:getPokemonId(r.url)}))) ?? []
   const [search, setSearch] = useState('')
-  const filteredPokemon = search ? pokemons.filter(p => p.name.includes(search.toLowerCase()) || p.id.toString() === search) : pokemons
+  const [sortKey, setSortKey] = useState<'id' | 'name'>('id')
+  const filteredPokemon = [
+    ...(search ? 
+      pokemons.filter(p => p.name.includes(search.toLowerCase()) ||
+      p.id.toString() === search)
+      : pokemons
+    )
+  ].sort((a,b) => (a[sortKey] < b[sortKey] ? -1 : 1))
   console.log(pokemons)
   
   return (
@@ -34,10 +42,11 @@ export default function Index() {
           <Image source={require("@/assets/images/pokeball.png")} width={24} height={24}/>
           <ThemedText variant="headline" color="grayLight">Pokédex</ThemedText>
       </Row>  
-      <Row>
+      <Row gap={16}>
         <SearchBar value={search} onChange={setSearch}></SearchBar>
+        <SortButton value={sortKey} onChange={setSortKey}></SortButton>
       </Row>
-      <Card style={styles.body}>
+      <Card style={styles.body}>  
       <FlatList 
         data={filteredPokemon}
         numColumns={3}
