@@ -7,7 +7,7 @@ type Props = ViewProps
 export function RouteView({style, ...rest}:Props){
     const colors = useThemeColors();
     return <SafeAreaView 
-    style={[rootStyle, {backgroundColor: colors.tint}]}
+    style={[rootStyle, {backgroundColor: colors.tint}, style]}
     { ...rest}
     />
 }
