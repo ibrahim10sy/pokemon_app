@@ -6,9 +6,10 @@ import ThemedText from "../components/ThemedText";
 import useFetchQuery from "@/hooks/useFetchQuery";
 import useThemeColors from "@/hooks/useThemeColors";
 import { Colors } from "../constants/Colors";
-import { getPokemonImage } from "../function/pokemons";
+import { formatedSize, formatedWeight, getPokemonImage } from "../function/pokemons";
 import Card from "../components/Card";
 import { PokemonType } from "../components/pokemon/pokemonType";
+import { PokemonSpec } from "../components/pokemon/PokemonSpec";
 
 
 export default function Pokemon() {
@@ -57,6 +58,28 @@ export default function Pokemon() {
           }
         </Row>
         <ThemedText variant="subtitle1" style={{color:colorType}}>A propos</ThemedText>
+        <Row>
+          <PokemonSpec 
+          style={{borderStyle:'solid',borderWidth:1,borderColor:colors.grayLight}}
+          title={formatedWeight(pokemon?.weight)}
+          description="Poids"
+          image={require("@/assets/images/w.png")}
+          />
+          <PokemonSpec 
+          style={{borderStyle:'solid',borderWidth:1,borderColor:colors.grayLight}}
+          title={formatedSize(pokemon?.height)}
+          description="Taille"
+          image={require("@/assets/images/he.png")}
+          />
+          <PokemonSpec 
+          title={pokemon?.moves
+            .slice(0,2)
+            .map((m:any) => m.move.name)
+            .join("\n")
+          }
+          description="Mouv"
+          />
+        </Row>
         <ThemedText variant="subtitle1" style={{color:colorType}}>Etat de base</ThemedText>
       </Card>
       </View>
