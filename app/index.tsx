@@ -41,7 +41,7 @@ export default function Index() {
       <Row style={styles.header} gap={16}>
           <Image source={require("@/assets/images/pokeball.png")} width={24} height={24}/>
           <ThemedText variant="headline" color="grayLight">Pokédex</ThemedText>
-          {/* <Image  source={require("@/assets/images/pokeball.png")} width={24} height={24}/> */}
+        
       </Row>  
       <Row gap={16} style={{paddingHorizontal:12}}>
         <SearchBar value={search} onChange={setSearch}></SearchBar>
