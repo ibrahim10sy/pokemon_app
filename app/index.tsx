@@ -20,7 +20,6 @@ export default function Index() {
   //   { id: 3, name: 'Venusaur' },
   //   { id: 1, name: 'Bulbasaur' }, // Duplicate
   // ];
-  // const {data, isFetching} = useFetchQuery('/pokemon?limit=21')
   const {data, isFetching, fetchNextPage} = useInfiniteFecthQuery('/pokemon?limit=21')
   const pokemons = data?.pages.flatMap(page => page.results.map(r => ({name:r.name, id:getPokemonId(r.url)}))) ?? []
   const [search, setSearch] = useState('')
