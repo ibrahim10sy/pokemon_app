@@ -14,12 +14,7 @@ import { RouteView } from "./components/RouteView";
 
 export default function Index() {
   const colors = useThemeColors();
-  // const pokemons = [
-  //   { id: 1, name: 'Bulbasaur' },
-  //   { id: 2, name: 'Ivysaur' },
-  //   { id: 3, name: 'Venusaur' },
-  //   { id: 1, name: 'Bulbasaur' }, // Duplicate
-  // ];
+ 
   const {data, isFetching, fetchNextPage} = useInfiniteFecthQuery('/pokemon?limit=21')
   const pokemons = data?.pages.flatMap(page => page.results.map(r => ({name:r.name, id:getPokemonId(r.url)}))) ?? []
   const [search, setSearch] = useState('')
